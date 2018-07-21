@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>Sketch_Book</title>
+  {{>globalScript}}
+  
+</head>
+<body>
+  {{>navigationBar}}
+  <div class="jumbotron jumbotron-fluid" style="margin-top:50px">
+    <div class="container">
+      <h1>{{pageTitle}}</h1> 
+      <p>{{{pageBlurb}}}</p> 
+    </div>
+  </div> 
+
+  {{>(whichPartial)}}
+  {{allContents}}
+  
+
+  {{>footer}}
+
+</body>
+</html>

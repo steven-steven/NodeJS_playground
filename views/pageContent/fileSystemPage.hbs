@@ -1,0 +1,15 @@
+<div class="container">
+    <p>Hello</p>
+    <div class="card-columns">
+        {{#each fileArray}}
+            <div class="card">
+                {{!-- <img class="card-img-top" src="resource/{{this.img}}" alt="{{this.title}}_img"> --}}
+                <div class="card-body">
+                    <h4 class="card-title">{{this.title}}</h4>
+                    <p class="card-text">{{this.description}}</p>
+                    <a href="#" class="btn btn-primary">See More</a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>
