@@ -1,3 +1,41 @@
 <div class="container">
-    <p>Hello Database</p>
+    <p>Editable Datatable</p> 
+    <div class="table-responsive">     
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>Moe</td>
+                <td>mary@example.com</td>
+            </tr>
+            <tr>
+                <td>July</td>
+                <td>Dooley</td>
+                <td>july@example.com</td>
+            </tr>
+            </tbody>
+        </table>
+    </div> 
+
+    <fieldset data-bind="with: selectedRecord">
+        <legend>Edit Record</legend>
+        <p><label>Prefix: <input type="text" data-bind="value: Prefix"></label></p>
+        <p><label>Abbreviation: <input type="text" data-bind="value: Abbreviation"></label></p>
+        <p><label>Memory: <input type="text" data-bind="value: Memory"></label></p>
+        <p><label>Bandwidth: <input type="text" data-bind="value: Bandwidth"></label></p>
+        <p><label>Storage: <input type="text" data-bind="value: Storage"></label></p>
+        <p><label>Speed: <input type="text" data-bind="value: Speed"></label></p>
+    </fieldset>
 </div>
