@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const hbs = require('hbs');  //templating engine handlebar
 const bodyParser = require('body-parser');
+const {ObjectId} = require('mongodb');
+const _ = require('lodash');
 
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo');
@@ -71,3 +73,89 @@ app.post('/todos', (req, res)=>{
         res.status(400).send(e);
     })
 });
+
+app.get('/todos', (req, res)=>{
+    Todo.find().then((todos)=>{
+        res.send({
+            todos
+        });
+    }, (err) =>{
+        res.status(400).send(e);
+    });
+});
+
+app.get('/todos/:id', (req, res)=>{
+
+    var id = req.params.id
+    //handle incorrect object id format
+    if(!ObjectId.isValid(id)){
+        res.status(404).send();
+    }
+
+    Todo.findById(id).then((todo)=>{
+        //handle incorrect id (return [] or null)
+        if(!todo){
+            res.status(404).send();
+        }
+        res.send({todo});
+        
+    }).catch((e)=>{
+        res.status(404).send();
+    });
+});
+
+app.delete('/todos/:id', (req, res)=>{
+    var id = req.params.id;
+    //handle incorrect object id format
+    if(!ObjectId.isValid(id)){
+        res.status(404).send();
+    }
+
+    Todo.findByIdAndRemove(id).then((todo)=>{
+        //handle incorrect id (return [] or null)
+        if(!todo){
+            res.status(404).send();
+        }
+        res.send({todo});
+        
+    }).catch((e)=>{
+        res.status(404).send();
+    });
+    
+});
+
+app.patch('/todos/:id', (req, res)=>{
+    var id = req.params.id;
+    //handle incorrect object id format
+    if(!ObjectId.isValid(id)){
+        res.status(404).send();
+    }
+
+    //pick only 'updatable' properties from request
+    let body = _.pick(req.body, ['text','completed']);
+    if(_.isBoolean(body.completed) && body.completed){  //user just set completed
+        body.completedAt = new Date().getTime();    //timestamp
+    } else{
+        body.completed = false;         //set to default
+        body.completedAt = null;
+    }
+
+    //Update to DB
+    Todo.findByIdAndUpdate(id, {
+        $set: body
+    }, {
+        new: true   //returned modified  rather than the original
+    }).then((todo) => {
+        //handle incorrect id (return [] or null)
+        if(!todo){
+            res.status(404).send();
+        }
+        res.send({todo});
+    }).catch((e) => {
+        res.status(404).send();
+    })
+    
+});
+
+
+module.exports = {app};
