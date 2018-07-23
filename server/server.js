@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const {ObjectId} = require('mongodb');
 const _ = require('lodash');
 
+require('./config/config');
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
@@ -12,7 +13,7 @@ const fileSystem = require(path.join(__dirname,'../public/js/fileSystem.js'));  
 const publicPath = path.join(__dirname,'../public');
 const viewsPath = path.join(__dirname,'../views');
 
-const port = process.env.PORT || 3000;      //port: heroku or local express app
+const port = process.env.PORT;      //port: heroku or local express app
 
 //--- SETUP  APP ---
 var app = express();
